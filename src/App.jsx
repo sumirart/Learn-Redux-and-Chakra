@@ -30,7 +30,6 @@ function App() {
     if (productStatus === "idle") {
       dispatch(fetchProducts());
     }
-    console.log("useEffect run");
   }, [productStatus, dispatch]);
 
   let content;
