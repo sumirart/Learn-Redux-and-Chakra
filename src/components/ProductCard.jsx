@@ -1,7 +1,12 @@
+import { useDispatch } from "react-redux";
+import { add } from "../features/cart/cartSlice";
+
 export default function ProductCard({ product }) {
+  const dispatch = useDispatch();
+
   function handleAddToCart() {
     // TODO: Edit this function to add the product to the cart via redux store
-    console.log(product);
+    dispatch(add(product));
   }
 
   return (

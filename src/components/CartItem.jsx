@@ -1,19 +1,26 @@
-export default function CartItem({ item }) {
+import { useDispatch } from "react-redux";
+import { add, decrease, remove } from "../features/cart/cartSlice";
+
+export default function CartItem({ item, quantity }) {
   const { id, title, price, image } = item;
+  const dispatch = useDispatch();
 
   // TODO: Edit this function to remove the product from the cart via redux store
   function removeItem() {
-    console.log(id);
+    dispatch(remove({ id }));
+    // console.log(id);
   }
 
   // TODO: Edit these functions to increase/decrease the quantity of the product in the cart via redux store
   function decreaseItem() {
-    console.log(id);
+    dispatch(decrease({ id }));
+    // console.log(id);
   }
 
   // TODO: Edit these functions to increase/decrease the quantity of the product in the cart via redux store
   function increaseItem() {
-    console.log(id);
+    dispatch(add({ id }));
+    // console.log(id);
   }
 
   return (
@@ -27,8 +34,10 @@ export default function CartItem({ item }) {
             <div className="cart__item__count">
               {/* TODO: If item is 1, disable the decrease button */}
               {/* <button disabled onClick... /> */}
-              <button onClick={decreaseItem}>-</button>
-              <p>0</p> {/* TODO: Edit this */}
+              <button onClick={decreaseItem} disabled={quantity < 2}>
+                -
+              </button>
+              <p>{quantity}</p> {/* TODO: Edit this */}
               <button onClick={increaseItem}>+</button>
             </div>
             <button className="btn btn--remove" onClick={removeItem}>
