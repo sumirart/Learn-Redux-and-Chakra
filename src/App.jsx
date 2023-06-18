@@ -1,36 +1,39 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { fetchProducts } from "./features/product/productSlice";
+import {
+  fetchProducts,
+  selectAllProducts,
+} from "./features/product/productSlice";
+
+import { useEffectOnce } from "./hooks/useEffectOnce";
 
 import ProductCard from "./components/ProductCard";
 import Navbar from "./components/Navbar";
 
 function App() {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector(selectAllProducts);
+
   const productStatus = useSelector((state) => state.products.status);
   const error = useSelector((state) => state.products.error);
-  // console.log(products);
-  // console.log(productStatus);
-  // console.log(error);
-  // const [products, setProducts] = useState([]);
 
-  // If you want to, fetch the data and put into the store (after the session)
-  // useEffect(() => {
-  //   fetch("https://fakestoreapi.com/products")
-  //     .then((res) => res.json())
-  //     .then((json) => {
-  //       // console.log(json);
-  //       setProducts(json);
-  //     });
-  // }, []);
-
+  // It will give you error "duplicate keys" because useEffect run 2 times and it fetch 2 times
+  // This is because React StrictMode in index.js
+  // Just leave it for now, when we build the app, StrictMode will be removed
   useEffect(() => {
     if (productStatus === "idle") {
       dispatch(fetchProducts());
     }
   }, [productStatus, dispatch]);
+
+  // Alternatives if we want run effect just once, we can create custom hooks like this
+  //
+  // useEffectOnce(() => {
+  //   if (productStatus === "idle") {
+  //     dispatch(fetchProducts());
+  //   }
+  // });
 
   let content;
 
